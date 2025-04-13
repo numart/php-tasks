@@ -1,0 +1,16 @@
+{
+    "name": "numa/tasks",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Numa\\Tasks\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "numa"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
