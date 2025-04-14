@@ -5,26 +5,7 @@
   "name": "PHP 8.2 + Apache Dev",
   "image": "mcr.microsoft.com/devcontainers/php",
   "forwardPorts": [ 8080 ],
-	"postCreateCommand": "sudo chmod a+x ./.devcontainer/postCreateCommand.sh && ./.devcontainer/postCreateCommand.sh",
-    "customizations": {
-        "jetbrains": {
-            "settings": {
-                "com.intellij:app:EditorSettings.soft_wrap_file_masks": "*.md; *.txt; *.rst; *.adoc",
-                "com.intellij:app:Vcs-Log-App-Settings.show_changes_from_parents": true,
-                "com.intellij:app:VcsApplicationSettings.patch_storage_location": "/home/nuria/workspace/",
-                "com.intellij:app:VcsApplicationSettings.commit_from_local_changes": false,
-                "com.intellij:app:VcsApplicationSettings.show_diff_on_double_click": true,
-                "com.jetbrains.php:app:PhpDebugGeneral.xdebugMoveToResolveBreakpoints": false,
-                "com.intellij:app:BaseRefactoringSettings.safe_delete_when_delete": false,
-                "com.intellij:app:BaseRefactoringSettings.rename_search_in_comments_for_file": false,
-                "com.intellij:app:BaseRefactoringSettings.rename_search_for_text_for_file": false,
-                "com.intellij:app:BaseRefactoringSettings.rename_search_for_references_for_directory": false,
-                "com.intellij:app:BaseRefactoringSettings.move_search_for_references_for_file": false,
-                "Docker:app:DockerSettings.dockerComposePath": "/usr/bin/docker",
-                "Docker:app:DockerSettings.dockerPath": "/usr/bin/docker"
-            }
-        }
-    }
+	"postCreateCommand": "sudo chmod a+x ./.devcontainer/postCreateCommand.sh && ./.devcontainer/postCreateCommand.sh"
 }
 
 
