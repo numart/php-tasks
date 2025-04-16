@@ -44,11 +44,13 @@ services:
       PHP_FPM_USER: wodby
       PHP_FPM_GROUP: wodby
 ## Read instructions at https://wodby.com/docs/stacks/php/local/#xdebug
-#      PHP_XDEBUG_MODE: debug
+      PHP_XDEBUG_MODE: debug
+      PHP_XDEBUG_START_WITH_REQUEST: "yes"
 #      PHP_XDEBUG_MODE: profile
 #      PHP_XDEBUG_USE_COMPRESSION: false
-#      PHP_IDE_CONFIG: serverName=my-ide
-#      PHP_XDEBUG_IDEKEY: "my-ide"
+      PHP_IDE_CONFIG: serverName=phpstorm
+#      PHP_XDEBUG_IDEKEY: "phpstorm"
+      PHP_XDEBUG_REMOTE_LOG: /tmp/php-xdebug.log
     extra_hosts:
     - "host.docker.internal:host-gateway"
     volumes:

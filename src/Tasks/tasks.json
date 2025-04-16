@@ -1,35 +1,42 @@
 {
   "0": {
+    "id": 1,
     "title": "task 1",
     "date": "01/01/25",
     "status": "done"
   },
   "1": {
+    "id": 2,
     "title": "task 2",
     "date": "02/01/25",
     "status": "in progress"
   },
   "2": {
+    "id": 3,
     "title": "task 3",
     "date": "03/01/25",
     "status": "pending"
   },
   "3": {
+    "id": 4,
     "title": "task 4",
     "date": "04/01/25",
     "status": "done"
   },
   "4": {
+    "id": 5,
     "title": "task 5",
     "date": "05/01/25",
     "status": "pending"
   },
   "5": {
+    "id": 6,
     "title": "task 6",
     "date": "06/01/25",
     "status": "in progress"
   },
   "6": {
+    "id": 7,
     "title": "task 7",
     "date": "07/01/25",
     "status": "done"

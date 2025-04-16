@@ -6,18 +6,13 @@ namespace Numa\Tasks\Tasks;
  */
 class Task
 {
-    protected $id;
-
-    protected $title;
-
-    protected $date;
-
-    protected $status;
-
-    public function __construct($title)
-    {
-
-    }
+    public function __construct(
+      protected int $id,
+      protected string $title,
+      protected string $date,
+      protected string $status,
+    )
+    { }
 
     /**
      * @return mixed
