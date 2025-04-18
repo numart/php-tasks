@@ -1,18 +1,27 @@
 <?php
 
 namespace Numa\Tasks\Tasks;
+
+use JsonSerializable;
+
 /**
  * A Task Object
  */
-class Task
+class Task implements JsonSerializable
 {
+
+    const array STATUS = [
+      0 => 'inbox',
+      1 => 'In progress',
+      2 => 'Done',
+    ];
+
     public function __construct(
       protected int $id,
       protected string $title,
       protected string $date,
-      protected string $status,
-    )
-    { }
+      protected int $status,
+    ) {}
 
     /**
      * @return mixed
@@ -23,7 +32,8 @@ class Task
     }
 
     /**
-     * @param mixed $id
+     * @param  mixed  $id
+     *
      * @return Task
      */
     public function setId($id)
@@ -41,7 +51,8 @@ class Task
     }
 
     /**
-     * @param mixed $title
+     * @param  mixed  $title
+     *
      * @return Task
      */
     public function setTitle($title)
@@ -59,7 +70,8 @@ class Task
     }
 
     /**
-     * @param mixed $date
+     * @param  mixed  $date
+     *
      * @return Task
      */
     public function setDate($date)
@@ -77,13 +89,19 @@ class Task
     }
 
     /**
-     * @param mixed $status
+     * @param  mixed  $status
+     *
      * @return Task
      */
     public function setStatus($status)
     {
         $this->status = $status;
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return (object)get_object_vars($this);
     }
 
 }

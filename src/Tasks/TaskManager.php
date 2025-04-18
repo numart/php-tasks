@@ -28,6 +28,10 @@ class TaskManager
         return $this->tasks[$taskId];
     }
 
-    public function addTask(Task $task) {}
+    public function addTask(Task $task)
+    {
+        $this->tasks[$task->getId()] = $task;
+        return file_put_contents($this->jsonPath, json_encode($this->tasks));
+    }
 
 }
