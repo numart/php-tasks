@@ -31,6 +31,17 @@ class TaskManager
     public function addTask(Task $task)
     {
         $this->tasks[$task->getId()] = $task;
+        return $this->writeTasks();
+    }
+
+    public function removeTask($taskId)
+    {
+        unset($this->tasks[$taskId]);
+        return $this->writeTasks();
+    }
+
+    private function writeTasks()
+    {
         return file_put_contents($this->jsonPath, json_encode($this->tasks));
     }
 

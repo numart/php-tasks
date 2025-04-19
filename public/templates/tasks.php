@@ -9,7 +9,7 @@ if (!empty($tasks)): ?>
   <ul>
       <?php
       foreach ($tasks as $task): ?>
-        <li><?= $task->getTitle().' - '.$task->getDate(); ?></li>
+        <li><?= $task->getTitle().' - '.$task->getDate(); ?> <a href="/edit-task/<?= $task->getId() ?>">Editar</a> <a href="/delete-task/<?= $task->getId() ?>">Borrar</a></li>
 
       <?php
       endforeach; ?>

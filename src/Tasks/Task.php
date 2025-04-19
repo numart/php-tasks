@@ -99,7 +99,7 @@ class Task implements JsonSerializable
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): object
     {
         return (object)get_object_vars($this);
     }

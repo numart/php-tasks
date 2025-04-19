@@ -35,20 +35,30 @@ class TaskController
      */
     public function createTask()
     {
-        if(isset($_POST['name'])) {
-
+        if (isset($_POST['name'])) {
             $taskManager = new TaskManager();
             $tasks = $taskManager->getTasks();
             $last_id = array_key_last($tasks);
 
-            $task = new Task( $last_id + 1, $_POST['name'],  date('Y-m-d'), 0);
+            $task = new Task($last_id + 1, $_POST['name'], date('Y-m-d'), 0);
             $taskManager->addTask($task);
 
-            if($taskManager->addTask($task)) {
+            if ($taskManager->addTask($task)) {
                 header('Location: /?task-create=1');
-            }else {
-                header('Location: /?task-create=1');
+            } else {
+                header('Location: /?task-create=0');
             }
+        }
+    }
+
+    public function deleteTask($id)
+    {
+        $taskManager = new TaskManager();
+
+        if ($taskManager->removeTask($id)) {
+            header('Location: /?task-delete=1');
+        } else {
+            header('Location: /?task-delete=0');
         }
     }
 
