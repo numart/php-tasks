@@ -13,23 +13,25 @@ $uriArr = explode('/', $uri);
 $path = $uriArr[1] ?? '';
 $param = $uriArr[2] ?? null;
 
-
 if ($method == 'POST') {
     switch ($path) {
         case 'add-task':
-            $taskController->createTask();
+            $taskController->store();
             break;
     }
 } else {
     switch ($path) {
         case 'new-task':
-            $taskController->newTask();
+            $taskController->create();
             break;
         case 'edit-task':
+            if ($param) {
+                $taskController->edit($param);
+            }
             break;
         case 'delete-task':
-            if($param){
-                $taskController->deleteTask($param);
+            if ($param) {
+                $taskController->delete($param);
             }
             break;
         default:

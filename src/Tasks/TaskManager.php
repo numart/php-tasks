@@ -13,36 +13,74 @@ class TaskManager
     {
         $tasks_arr = json_decode(file_get_contents($this->jsonPath), true);
 
-        foreach ($tasks_arr as $task) {
-            $this->tasks[$task['id']] = new Task(...$task);
+        if(!empty($tasks_arr)) {
+            foreach ($tasks_arr as $task) {
+                $this->tasks[$task['id']] = new Task(...$task);
+            }
         }
+
     }
 
-    public function getTasks()
+    /**
+     * @return array
+     */
+    public function getAll()
     {
         return $this->tasks;
     }
 
-    public function getTask($taskId)
+    /**
+     * @param $taskId
+     *
+     * @return mixed
+     */
+    public function getByID($taskId)
     {
         return $this->tasks[$taskId];
     }
 
-    public function addTask(Task $task)
+    /**
+     * @param  \Numa\Tasks\Tasks\Task  $task
+     *
+     * @return false|int
+     */
+    public function store(Task $task)
     {
         $this->tasks[$task->getId()] = $task;
-        return $this->writeTasks();
+        return $this->write();
     }
 
-    public function removeTask($taskId)
+    /**
+     * @param  \Numa\Tasks\Tasks\Task  $task
+     *
+     * @return void
+     */
+    public function update(Task $task){
+
+    }
+
+    /**
+     * @param $taskId
+     *
+     * @return false|int
+     */
+    public function remove($taskId)
     {
         unset($this->tasks[$taskId]);
-        return $this->writeTasks();
+        return $this->write();
     }
 
-    private function writeTasks()
+    /**
+     * @return false|int
+     */
+    private function write()
     {
         return file_put_contents($this->jsonPath, json_encode($this->tasks));
+    }
+
+    public function getNextId() {
+        $last_id = array_key_last($this->tasks);
+        return $last_id + 1;
     }
 
 }

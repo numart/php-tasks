@@ -9,7 +9,7 @@ if (!empty($tasks)): ?>
   <ul>
       <?php
       foreach ($tasks as $task): ?>
-        <li><?= $task->getTitle().' - '.$task->getDate(); ?> <a href="/edit-task/<?= $task->getId() ?>">Editar</a> <a href="/delete-task/<?= $task->getId() ?>">Borrar</a></li>
+        <li><?= $task->getTitle(); ?> <a href="/edit-task/<?= $task->getId() ?>">Editar</a> <a href="/delete-task/<?= $task->getId() ?>">Borrar</a></li>
 
       <?php
       endforeach; ?>
@@ -19,4 +19,4 @@ endif; ?>
 
 <?php
 $content = ob_get_clean();
-require 'layout.php';
+require dirname(__DIR__, 1) . '/layout.php';

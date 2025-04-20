@@ -12,4 +12,4 @@
 
 <?php
 $content = ob_get_clean();
-require 'layout.php';
+require dirname(__DIR__, 1) . '/layout.php';

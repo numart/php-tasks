@@ -13,9 +13,9 @@ class TaskController
     public function index()
     {
         $taskManager = new TaskManager();
-        $tasks = $taskManager->getTasks();
+        $tasks = $taskManager->getAll();
 
-        require dirname(__DIR__, 2).'/public/templates/tasks.php';
+        require dirname(__DIR__, 2).'/public/templates/tasks/index.php';
     }
 
     /**
@@ -23,9 +23,21 @@ class TaskController
      *
      * @return void
      */
-    public function newTask()
+    public function create()
     {
-        require dirname(__DIR__, 2).'/public/templates/newTask.php';
+        require dirname(__DIR__, 2).'/public/templates/tasks/create.php';
+    }
+
+    /**
+     * Show edit form
+     *
+     * @return void
+     */
+    public function edit($id)
+    {
+        $taskManager = new TaskManager();
+        $task = $taskManager->getByID($id);
+        require dirname(__DIR__, 2).'/public/templates/tasks/edit.php';
     }
 
     /**
@@ -33,17 +45,16 @@ class TaskController
      *
      * @return void
      */
-    public function createTask()
+    public function store()
     {
         if (isset($_POST['name'])) {
             $taskManager = new TaskManager();
-            $tasks = $taskManager->getTasks();
-            $last_id = array_key_last($tasks);
 
-            $task = new Task($last_id + 1, $_POST['name'], date('Y-m-d'), 0);
-            $taskManager->addTask($task);
+            $task = new Task(
+              $taskManager->getNextId(), $_POST['name'], '', date('Y-m-d'), date('Y-m-d'), 0
+            );
 
-            if ($taskManager->addTask($task)) {
+            if ($taskManager->store($task)) {
                 header('Location: /?task-create=1');
             } else {
                 header('Location: /?task-create=0');
@@ -51,11 +62,11 @@ class TaskController
         }
     }
 
-    public function deleteTask($id)
+    public function delete($id)
     {
         $taskManager = new TaskManager();
 
-        if ($taskManager->removeTask($id)) {
+        if ($taskManager->remove($id)) {
             header('Location: /?task-delete=1');
         } else {
             header('Location: /?task-delete=0');

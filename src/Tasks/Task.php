@@ -19,7 +19,9 @@ class Task implements JsonSerializable
     public function __construct(
       protected int $id,
       protected string $title,
-      protected string $date,
+      protected string $description,
+      protected string $create,
+      protected string $update,
       protected int $status,
     ) {}
 
@@ -62,21 +64,58 @@ class Task implements JsonSerializable
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getDate()
+    public function getDescription(): string
     {
-        return $this->date;
+        return $this->description;
     }
 
     /**
-     * @param  mixed  $date
+     * @param  string  $description
      *
-     * @return Task
+     * @return void
      */
-    public function setDate($date)
+    public function setDescription(string $description): void
     {
-        $this->date = $date;
+        $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreate(): string
+    {
+        return $this->create;
+    }
+
+    /**
+     * @param  string  $create
+     *
+     * @return $this
+     */
+    public function setCreate(string $create): Task
+    {
+        $this->create = $create;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdate(): string
+    {
+        return $this->update;
+    }
+
+    /**
+     * @param  string  $update
+     *
+     * @return $this
+     */
+    public function setUpdate(string $update): Task
+    {
+        $this->update = $update;
         return $this;
     }
 
@@ -99,6 +138,9 @@ class Task implements JsonSerializable
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function jsonSerialize(): object
     {
         return (object)get_object_vars($this);
