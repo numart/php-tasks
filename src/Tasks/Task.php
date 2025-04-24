@@ -109,11 +109,11 @@ class Task implements JsonSerializable
     }
 
     /**
-     * @param  string  $update
+     * @param  int  $update
      *
      * @return $this
      */
-    public function setUpdate(string $update): Task
+    public function setUpdate(int $update): Task
     {
         $this->update = $update;
         return $this;

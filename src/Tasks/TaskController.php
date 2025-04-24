@@ -54,10 +54,31 @@ class TaskController
               $taskManager->getNextId(), $_POST['name'], '', date('Y-m-d'), date('Y-m-d'), 0
             );
 
-            if ($taskManager->store($task)) {
+            if ($taskManager->save($task)) {
                 header('Location: /?task-create=1');
             } else {
                 header('Location: /?task-create=0');
+            }
+        }
+    }
+
+    /**
+     *
+     * @return void
+     */
+    public function update()
+    {
+        if (isset($_POST['task_id'])) {
+            $taskManager = new TaskManager();
+            $task = $taskManager->getByID($_POST['task_id']);
+
+            $task->setName($_POST['task_name']);
+            $task->setUpdated(time());
+
+            if ($taskManager->save($task)) {
+                header('Location: /?task-update=1');
+            } else {
+                header('Location: /?task-update=0');
             }
         }
     }

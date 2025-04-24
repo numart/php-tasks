@@ -32,7 +32,7 @@ class TaskManager
     /**
      * @param $taskId
      *
-     * @return mixed
+     * @return Task
      */
     public function getByID($taskId)
     {
@@ -44,19 +44,10 @@ class TaskManager
      *
      * @return false|int
      */
-    public function store(Task $task)
+    public function save(Task $task)
     {
         $this->tasks[$task->getId()] = $task;
         return $this->write();
-    }
-
-    /**
-     * @param  \Numa\Tasks\Tasks\Task  $task
-     *
-     * @return void
-     */
-    public function update(Task $task){
-
     }
 
     /**

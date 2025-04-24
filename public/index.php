@@ -18,6 +18,9 @@ if ($method == 'POST') {
         case 'add-task':
             $taskController->store();
             break;
+        case 'update-task':
+            $taskController->update();
+            break;
     }
 } else {
     switch ($path) {
