@@ -11,6 +11,7 @@ if (!empty($tasks)): ?>
       foreach ($tasks as $task): ?>
         <li><input type="checkbox" class="task-complete" data-id="<?= $task->getId() ?>">
             <?= $task->getTitle(); ?>
+          <a href="/task/<?= $task->getId() ?>">ver</a>
           <a href="/edit-task/<?= $task->getId() ?>">Editar</a>
           <a href="/delete-task/<?= $task->getId() ?>">Borrar</a>
         </li>

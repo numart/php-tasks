@@ -2,7 +2,7 @@
 
 <h1>Crear tarea</h1>
 
-<form action="/add-task" method="POST">
+<form action="/task" method="POST">
   <div class="mb-3">
     <label for="task_title" class="form-label">Título</label>
     <input type="text" class="form-control" name="name" id="task_title" placeholder="">

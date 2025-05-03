@@ -47,12 +47,29 @@ include '../vendor/autoload.php';
 //    }
 //}
 
-Route::get('test', function() {
-    echo 'prueba router';
+
+
+// TEST ROUTES
+Route::get('test', function(){
+    echo 'test';
 });
 
+Route::get('test1', 'funct_test');
+
+function funct_test(): void
+{
+    echo 'soy una funcion de prueba';
+}
+
+//ROUTES
+
+Route::get('',  [TaskController::class, 'index']);
+Route::get('/task/create',  [TaskController::class, 'create']);
+Route::post('/task',  [TaskController::class, 'store']);
+
+
 $route = new Route();
-$route->execute();
+$route->dispatch();
 
 
 
