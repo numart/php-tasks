@@ -51,7 +51,7 @@ class TaskController
             $taskManager = new TaskManager();
 
             $task = new Task(
-              $taskManager->getNextId(), $_POST['name'], '', date('Y-m-d'), date('Y-m-d'), 0
+              id: $taskManager->getNextId(), title: $_POST['name'],
             );
 
             if ($taskManager->save($task)) {
@@ -92,6 +92,15 @@ class TaskController
         } else {
             header('Location: /?task-delete=0');
         }
+    }
+
+    public function complete(): void
+    {
+        $taskManager = new TaskManager();
+        $data = json_decode(file_get_contents("php://input"), true);
+        $task = $taskManager->getByID($data['id']);
+        $task->setCompleted($data['completed']);
+        $taskManager->save($task);
     }
 
 }

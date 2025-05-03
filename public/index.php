@@ -21,6 +21,9 @@ if ($method == 'POST') {
         case 'update-task':
             $taskController->update();
             break;
+        case 'complete-task':
+            $taskController->complete();
+            break;
     }
 } else {
     switch ($path) {

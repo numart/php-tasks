@@ -10,6 +10,10 @@ use JsonSerializable;
 class Task implements JsonSerializable
 {
 
+    const STATUS_COMPLETE = 2;
+
+    const STATUS_PROGRESS = 1;
+
     const array STATUS = [
       0 => 'inbox',
       1 => 'In progress',
@@ -19,11 +23,26 @@ class Task implements JsonSerializable
     public function __construct(
       protected int $id,
       protected string $title,
-      protected string $description,
-      protected string $create,
-      protected string $update,
-      protected int $status,
-    ) {}
+      protected string $description = '',
+      protected ?int $completeAt = null,
+      protected int $create = 0,
+      protected int $update = 0,
+      protected int $status = 0,
+    ) {
+        $this->create = $this->create ?: time();
+        $this->update = $this->update ?: time();
+    }
+
+    public function getCompleteAt(): int
+    {
+        return $this->completeAt;
+    }
+
+    public function setCompleteAt(int $completeAt): Task
+    {
+        $this->completeAt = $completeAt;
+        return $this;
+    }
 
     /**
      * @return mixed
@@ -144,6 +163,18 @@ class Task implements JsonSerializable
     public function jsonSerialize(): object
     {
         return (object)get_object_vars($this);
+    }
+
+    public function setCompleted(bool $complete): void
+    {
+        if ($complete) {
+            $this->setStatus(self::STATUS_COMPLETE);
+            $this->completeAt = time();
+        } else {
+            $this->setStatus(self::STATUS_PROGRESS);
+            $this->completeAt = 0;
+        }
+        $this->setUpdate(time());
     }
 
 }

@@ -9,7 +9,11 @@ if (!empty($tasks)): ?>
   <ul>
       <?php
       foreach ($tasks as $task): ?>
-        <li><?= $task->getTitle(); ?> <a href="/edit-task/<?= $task->getId() ?>">Editar</a> <a href="/delete-task/<?= $task->getId() ?>">Borrar</a></li>
+        <li><input type="checkbox" class="task-complete" data-id="<?= $task->getId() ?>">
+            <?= $task->getTitle(); ?>
+          <a href="/edit-task/<?= $task->getId() ?>">Editar</a>
+          <a href="/delete-task/<?= $task->getId() ?>">Borrar</a>
+        </li>
 
       <?php
       endforeach; ?>
