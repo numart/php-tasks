@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Numa\Tasks;
+namespace Numa\Tasks\app;
+
+use Numa\Tasks\Tasks\TaskController;
+use Numa\Tasks\Tasks\TaskRepository;
 
 class Route
 {
@@ -56,8 +59,16 @@ class Route
                 }
 
                 if (is_array($action) && class_exists($action[0])) {
-                    $controller = new $action[0]();
+                    $controllerClass = $action[0];
                     $methodName = $action[1];
+
+                    if ($controllerClass === TaskController::class) {
+                        $taskManager = new TaskRepository();
+                        $controller = new $controllerClass($taskManager);
+                    }else {
+                        $controller = new $controllerClass();
+                    }
+
                     return $controller->$methodName(...$matches); // Da problemas con $matches al ser un array, por eso el spread
 //                    return call_user_func_array([$controller, $methodName], $matches);
                 }

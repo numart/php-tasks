@@ -1,6 +1,6 @@
 <?php
 
-use Numa\Tasks\Route;
+use Numa\Tasks\app\Route;
 use Numa\Tasks\Tasks\TaskController;
 
 include '../vendor/autoload.php';

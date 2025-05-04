@@ -2,7 +2,7 @@
 
 namespace Numa\Tasks\Tasks;
 
-class TaskManager
+class TaskRepository implements TaskRepositoryInterface
 {
 
     private $jsonPath = __DIR__.'/tasks.json';
@@ -24,7 +24,7 @@ class TaskManager
     /**
      * @return array
      */
-    public function getAll()
+    public function getAll(): array
     {
         return $this->tasks;
     }
@@ -34,7 +34,7 @@ class TaskManager
      *
      * @return Task
      */
-    public function getByID($taskId)
+    public function getByID($taskId): ?Task
     {
         return $this->tasks[$taskId];
     }
@@ -44,7 +44,7 @@ class TaskManager
      *
      * @return false|int
      */
-    public function save(Task $task)
+    public function save(Task $task): bool
     {
         $this->tasks[$task->getId()] = $task;
         return $this->write();
@@ -55,9 +55,9 @@ class TaskManager
      *
      * @return false|int
      */
-    public function remove($taskId)
+    public function delete($id): bool
     {
-        unset($this->tasks[$taskId]);
+        unset($this->tasks[$id]);
         return $this->write();
     }
 

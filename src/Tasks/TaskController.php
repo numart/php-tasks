@@ -5,6 +5,8 @@ namespace Numa\Tasks\Tasks;
 class TaskController
 {
 
+    public function __construct(private readonly TaskRepositoryInterface $taskRepository) {}
+
     /**
      * Show tasks list
      *
@@ -12,16 +14,14 @@ class TaskController
      */
     public function index()
     {
-        $taskManager = new TaskManager();
-        $tasks = $taskManager->getAll();
+        $tasks = $this->taskRepository->getAll();
 
         require dirname(__DIR__, 2).'/public/templates/tasks/index.php';
     }
 
     public function show($id)
     {
-        $taskManager = new TaskManager();
-        $task = $taskManager->getByID($id);
+        $task = $this->taskRepository->getByID($id);
         echo $task->getId().' - '.$task->getTitle().' - '.$task->getDescription(
           );
     }
@@ -43,8 +43,7 @@ class TaskController
      */
     public function edit($id)
     {
-        $taskManager = new TaskManager();
-        $task = $taskManager->getByID($id);
+        $task = $this->taskRepository->getByID($id);
         require dirname(__DIR__, 2).'/public/templates/tasks/edit.php';
     }
 
@@ -56,13 +55,13 @@ class TaskController
     public function store()
     {
         if (isset($_POST['name'])) {
-            $taskManager = new TaskManager();
 
             $task = new Task(
-              id: $taskManager->getNextId(), title: $_POST['name'],
+              id: $this->taskRepository->getNextId(),
+              title: $_POST['name'],
             );
 
-            if ($taskManager->save($task)) {
+            if ($this->taskRepository->save($task)) {
                 header('Location: /?task-create=1');
             } else {
                 header('Location: /?task-create=0');
@@ -76,13 +75,12 @@ class TaskController
      */
     public function update($id)
     {
-        $taskManager = new TaskManager();
-        $task = $taskManager->getByID($id);
+        $task = $this->taskRepository->getByID($id);
 
         $task->setTitle($_POST['name']);
         $task->setUpdate(time());
 
-        if ($taskManager->save($task)) {
+        if ($this->taskRepository->save($task)) {
             header('Location: /?task-update=1');
         } else {
             header('Location: /?task-update=0');
@@ -91,9 +89,7 @@ class TaskController
 
     public function delete($id)
     {
-        $taskManager = new TaskManager();
-
-        if ($taskManager->remove($id)) {
+        if ($this->taskRepository->delete($id)) {
             header('Location: /?task-delete=1');
         } else {
             header('Location: /?task-delete=0');
@@ -102,11 +98,10 @@ class TaskController
 
     public function complete(): void
     {
-        $taskManager = new TaskManager();
         $data = json_decode(file_get_contents("php://input"), true);
-        $task = $taskManager->getByID($data['id']);
+        $task = $this->taskRepository->getByID($data['id']);
         $task->setCompleted($data['completed']);
-        $taskManager->save($task);
+        $this->taskRepository->save($task);
     }
 
 }
