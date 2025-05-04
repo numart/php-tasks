@@ -2,7 +2,7 @@
 ob_start(); ?>
 
   <h1>Tareas</h1>
-  <a href="/new-task" type="button" class="btn btn-primary">Crear tarea</a>
+  <a href="/task/create" type="button" class="btn btn-primary">Crear tarea</a>
 
 <?php
 if (!empty($tasks)): ?>
@@ -12,8 +12,8 @@ if (!empty($tasks)): ?>
         <li><input type="checkbox" class="task-complete" data-id="<?= $task->getId() ?>">
             <?= $task->getTitle(); ?>
           <a href="/task/<?= $task->getId() ?>">ver</a>
-          <a href="/edit-task/<?= $task->getId() ?>">Editar</a>
-          <a href="/delete-task/<?= $task->getId() ?>">Borrar</a>
+          <a href="/task/edit/<?= $task->getId() ?>">Editar</a>
+          <a href="/task/delete/<?= $task->getId() ?>">Borrar</a>
         </li>
 
       <?php

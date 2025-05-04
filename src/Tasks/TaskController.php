@@ -18,6 +18,12 @@ class TaskController
         require dirname(__DIR__, 2).'/public/templates/tasks/index.php';
     }
 
+    public function show($id) {
+         $taskManager = new TaskManager();
+        $task = $taskManager->getByID($id);
+        echo $task->getId() . ' - ' . $task->getTitle() . ' - ' . $task->getDescription();
+    }
+
     /**
      * New task form
      *

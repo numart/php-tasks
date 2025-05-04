@@ -7,7 +7,7 @@
 
 <h1>Editar tarea</h1>
 
-<form action="/update-task/<?= $task->getId(); ?>" method="POST">
+<form action="/task/update/<?= $task->getId(); ?>" method="POST">
     <input type="hidden" name="task_id" value="<?= $task->getId() ?>" />
   <div class="mb-3">
     <label for="task_title" class="form-label">Título</label>

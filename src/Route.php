@@ -9,9 +9,17 @@ class Route
 
     private static array $routes = [];
 
-    public static function get($uri, $action)
+    public static function get(string $routePattern, $action)
     {
-        self::$routes['GET'][trim($uri, '/')] = $action;
+        $routePattern = trim($routePattern, '/');
+        $regex = preg_replace('#\{[\w]+\}#', '([\w-]+)', $routePattern);
+        $regex = "#^$regex$#";
+
+        self::$routes['GET'][] = [
+          'pattern' => $routePattern,
+          'regex' => $regex,
+          'action' => $action,
+        ];
     }
 
     public static function post($uri, $action)
@@ -22,38 +30,34 @@ class Route
     public function dispatch()
     {
         $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-        $method = $_SERVER['REQUEST_METHOD'];
+        $httpMethod = $_SERVER['REQUEST_METHOD'];
 
-        //        if(is_array($uri)){
-        //            $path = '/';
-        //        } else {
-        //            $uriArr = explode('/', $uri);
-        //            $path = $uriArr[1] ?? '';
-        //            $param = $uriArr[2] ?? null;
-        //        }
+        $routes = self::$routes[$httpMethod] ?? [];
 
-        $route = self::$routes[$method][$uri] ?? null;
+        foreach ($routes as $route) {
+            if (preg_match($route['regex'], $uri, $matches)) {
+                array_shift(
+                  $matches
+                ); // elimina el match completo, deja solo parámetros
 
-        if (!$route) {
-            http_response_code(404);
-            echo "Página no encontrada";
-            exit;
+                $action = $route['action'];
+
+                if (is_callable($action)) {
+                    call_user_func_array($action, $matches);
+                    return;
+                }
+
+                if (is_array($action) && class_exists($action[0])) {
+                    $controller = new $action[0]();
+                    $methodName = $action[1];
+                    call_user_func_array([$controller, $methodName], $matches);
+                    return;
+                }
+            }
         }
 
-        if (is_callable($route)) {
-            $route();
-            exit;
-        }
-
-        if (is_array($route) && class_exists($route[0])) {
-            $controller = new $route[0]();
-            $methodName = $route[1];
-            $controller->$methodName();
-            exit;
-        }
-
-        http_response_code(500);
-        echo "Error al procesar la ruta";
+        http_response_code(404);
+        echo "Página no encontrada";
     }
 
 }
