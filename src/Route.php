@@ -9,22 +9,30 @@ class Route
 
     private static array $routes = [];
 
-    public static function get(string $routePattern, $action)
+    public static function get(string $routePattern, callable|array $action)
     {
+        self::addRoute('GET', $routePattern, $action);
+    }
+
+    public static function post(string $routePattern, callable|array $action)
+    {
+        self::addRoute('POST', $routePattern, $action);
+    }
+
+    private static function addRoute(
+      string $method,
+      string $routePattern,
+      callable|array $action
+    ) {
         $routePattern = trim($routePattern, '/');
         $regex = preg_replace('#\{[\w]+\}#', '([\w-]+)', $routePattern);
         $regex = "#^$regex$#";
 
-        self::$routes['GET'][] = [
+        self::$routes[$method][] = [
           'pattern' => $routePattern,
           'regex' => $regex,
           'action' => $action,
         ];
-    }
-
-    public static function post($uri, $action)
-    {
-        self::$routes['POST'][trim($uri, '/')] = $action;
     }
 
     public function dispatch()
@@ -43,15 +51,15 @@ class Route
                 $action = $route['action'];
 
                 if (is_callable($action)) {
-                    call_user_func_array($action, $matches);
-                    return;
+                    return $action(...$matches);
+//                    return call_user_func_array($action, $matches);
                 }
 
                 if (is_array($action) && class_exists($action[0])) {
                     $controller = new $action[0]();
                     $methodName = $action[1];
-                    call_user_func_array([$controller, $methodName], $matches);
-                    return;
+                    return $controller->$methodName(...$matches); // Da problemas con $matches al ser un array, por eso el spread
+//                    return call_user_func_array([$controller, $methodName], $matches);
                 }
             }
         }

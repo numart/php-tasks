@@ -18,10 +18,12 @@ class TaskController
         require dirname(__DIR__, 2).'/public/templates/tasks/index.php';
     }
 
-    public function show($id) {
-         $taskManager = new TaskManager();
+    public function show($id)
+    {
+        $taskManager = new TaskManager();
         $task = $taskManager->getByID($id);
-        echo $task->getId() . ' - ' . $task->getTitle() . ' - ' . $task->getDescription();
+        echo $task->getId().' - '.$task->getTitle().' - '.$task->getDescription(
+          );
     }
 
     /**
@@ -72,20 +74,18 @@ class TaskController
      *
      * @return void
      */
-    public function update()
+    public function update($id)
     {
-        if (isset($_POST['task_id'])) {
-            $taskManager = new TaskManager();
-            $task = $taskManager->getByID($_POST['task_id']);
+        $taskManager = new TaskManager();
+        $task = $taskManager->getByID($id);
 
-            $task->setName($_POST['task_name']);
-            $task->setUpdated(time());
+        $task->setTitle($_POST['name']);
+        $task->setUpdate(time());
 
-            if ($taskManager->save($task)) {
-                header('Location: /?task-update=1');
-            } else {
-                header('Location: /?task-update=0');
-            }
+        if ($taskManager->save($task)) {
+            header('Location: /?task-update=1');
+        } else {
+            header('Location: /?task-update=0');
         }
     }
 
