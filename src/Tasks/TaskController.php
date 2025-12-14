@@ -2,6 +2,8 @@
 
 namespace Numa\Tasks\Tasks;
 
+use Numa\Tasks\View;
+
 class TaskController
 {
 
@@ -16,14 +18,18 @@ class TaskController
     {
         $tasks = $this->taskRepository->getAll();
 
-        require dirname(__DIR__, 2).'/public/templates/tasks/index.php';
+      View::render('tasks/index', [
+        'tasks' => $tasks,
+      ]);
+
+
+//        require dirname(__DIR__, 2).'/public/templates/tasks/index.php';
     }
 
     public function show($id)
     {
         $task = $this->taskRepository->getByID($id);
-        echo $task->getId().' - '.$task->getTitle().' - '.$task->getDescription(
-          );
+        echo $task->getId().' - '.$task->getTitle().' - '.$task->getDescription();
     }
 
     /**
@@ -33,7 +39,9 @@ class TaskController
      */
     public function create()
     {
-        require dirname(__DIR__, 2).'/public/templates/tasks/create.php';
+      View::render('tasks/create');
+
+//        require dirname(__DIR__, 2).'/public/templates/tasks/create.php';
     }
 
     /**
@@ -44,7 +52,8 @@ class TaskController
     public function edit($id)
     {
         $task = $this->taskRepository->getByID($id);
-        require dirname(__DIR__, 2).'/public/templates/tasks/edit.php';
+      View::render('tasks/edit', ['task' => $task]);
+//        require dirname(__DIR__, 2).'/public/templates/tasks/edit.php';
     }
 
     /**
